@@ -1,26 +1,26 @@
 This is a generated file for the l3build validation system.
 Don't change this file in any respect.
-ERROR: orlatex/context
-ERROR: orlatex/nested-style
-ERROR: orlatex/set-conflict
-WARNING: orlatex/empty
-ERROR: orlatex/style
-ERROR: orlatex/objective
-\l__orlatex_row_1_expression_box=\box...
-\l__orlatex_row_1_domain_box=\box...
-\l__orlatex_row_2_expression_box=\box...
-\l__orlatex_row_2_domain_box=\box...
-ERROR: orlatex/unnumbered
-ERROR: orlatex/unnumbered
-ERROR: orlatex/row-label
-ERROR: orlatex/option
-ERROR: orlatex/dimension
-ERROR: orlatex/dimension
-ERROR: orlatex/option
-ERROR: orlatex/objective
-ERROR: orlatex/objective
-ERROR: orlatex/objective
-WARNING: orlatex/overflow
+ERROR: ormath/context
+ERROR: ormath/nested-style
+ERROR: ormath/set-conflict
+WARNING: ormath/empty
+ERROR: ormath/style
+ERROR: ormath/objective
+\l__ormath_row_1_expression_box=\box...
+\l__ormath_row_1_domain_box=\box...
+\l__ormath_row_2_expression_box=\box...
+\l__ormath_row_2_domain_box=\box...
+ERROR: ormath/unnumbered
+ERROR: ormath/unnumbered
+ERROR: ormath/row-label
+ERROR: ormath/option
+ERROR: ormath/dimension
+ERROR: ormath/dimension
+ERROR: ormath/option
+ERROR: ormath/objective
+ERROR: ormath/objective
+ERROR: ormath/objective
+WARNING: ormath/overflow
 Overfull \hbox (140.79247pt too wide) detected at line 38
 [][][] 
 \hbox(8.39996+8.0333)x100.0 []

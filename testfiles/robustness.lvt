@@ -3,7 +3,7 @@
 
 \input regression-test.tex
 \documentclass{article}
-\usepackage{orlatex}
+\usepackage{ormath}
 \begin{document}
 \setbox0=\hbox{$x$}
 \begingroup\small\setbox0=\hbox{$x$}\endgroup
@@ -12,16 +12,16 @@
 \cs_set_protected:Npn \msg_error:nn #1#2 {\TYPE{ERROR:~#1/#2}}
 \setbox0=\vbox{\begin{ormodel}\end{ormodel}
 \begin{ormodel}\objective[min,max]{x}\end{ormodel}}
-\cs_new_eq:NN \test_measure: \__orlatex_measure_marker:
-\cs_set_protected:Npn \__orlatex_measure_marker:
+\cs_new_eq:NN \test_measure: \__ormath_measure_marker:
+\cs_set_protected:Npn \__ormath_measure_marker:
   {\test_measure:
    \hbox_set:Nn \l_tmpa_box {\normalsize(III)}
-   \dim_compare:nNnTF {\l__orlatex_number_dim}
+   \dim_compare:nNnTF {\l__ormath_number_dim}
      <{\box_wd:N\l_tmpa_box+12pt}
      {\TYPE{FAIL:~number~column~width}}
      {\TYPE{PASS:~number~column~uses~all~values~and~row~fonts}}
    \hbox_set:Nn \l_tmpa_box {\normalsize$\max\quad$}
-   \dim_compare:nNnTF {\l__orlatex_marker_dim}< {\box_wd:N\l_tmpa_box}
+   \dim_compare:nNnTF {\l__ormath_marker_dim}< {\box_wd:N\l_tmpa_box}
      {\TYPE{FAIL:~marker~column~width}}
      {\TYPE{PASS:~marker~column~uses~row~fonts}}}
 \renewcommand\theequation{\Roman{equation}}
@@ -33,9 +33,9 @@
 \int_compare:nNnTF {\value{equation}}={5}
   {\TYPE{PASS:~measurement~does~not~increment~real~counter}}
   {\TYPE{FAIL:~counter~changed~during~measurement}}
-\cs_new_eq:NN \test_notation_output:nn \__orlatex_notation_output:nn
-\cs_set_protected:Npn \__orlatex_notation_output:nn #1#2
-  {\bool_if:NTF \l__orlatex_single_bool
+\cs_new_eq:NN \test_notation_output:nn \__ormath_notation_output:nn
+\cs_set_protected:Npn \__ormath_notation_output:nn #1#2
+  {\bool_if:NTF \l__ormath_single_bool
     {\TYPE{FAIL:~long~domain~layout}}
     {\TYPE{PASS:~long~domain~wrap~or~explicit~override~is~local}}
    \test_notation_output:nn {#1}{#2}}

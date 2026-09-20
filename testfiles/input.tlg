@@ -1,8 +1,8 @@
 This is a generated file for the l3build validation system.
 Don't change this file in any respect.
-ERROR: orlatex/input
-ERROR: orlatex/input
-ERROR: orlatex/input
+ERROR: ormath/input
+ERROR: ormath/input
+ERROR: ormath/input
 kind=set
 math=J=\{1,2,\ldots ,n\}
 domain={}
@@ -63,4 +63,4 @@ PASS: param restored
 PASS: var restored
 PASS: for restored
 PASS: setdef restored
-ERROR: orlatex/input
+ERROR: ormath/input

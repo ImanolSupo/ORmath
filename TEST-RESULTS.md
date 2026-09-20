@@ -1,9 +1,9 @@
-# Local verification — 2026-09-16
+# Local verification — 2026-09-20
 
-Release candidate: ORLaTeX **0.1.0**, Windows, MiKTeX 25.4, LaTeX kernel
+Release candidate: ORmath **0.1.0**, Windows, MiKTeX 25.4, LaTeX kernel
 2025-11-01, expl3 2025-11-06. Results below describe actual execution, not inferred
 compatibility. This revision supersedes the initial eight-test/ten-source matrix.
-No remote, push, upload, release, or publication occurred.
+No tag, release, CTAN upload, or publication occurred.
 
 ## Final commands and outcomes
 
@@ -22,21 +22,20 @@ python scripts/compare-inputs.py
 python scripts/compare-inputs.py --model-only
 ```
 
-- `l3build check`: **PASS**. Eleven tests, three engines, two runs each
-  (33 engine/test combinations; 66 TeX passes).
-- `scripts/compile.py --engine all`: **PASS**. Sixteen examples and the manual,
-  three engines, two runs each (51 documents; 102 TeX passes). The portable Python
+- `l3build check`: **PASS**. Thirteen tests, three engines, two runs each
+  (39 engine/test combinations; 78 TeX passes).
+- `scripts/compile.py --engine all`: **PASS**. Twenty examples and the manual,
+  three engines, two runs each (63 documents; 126 TeX passes). The portable Python
   script was executed on Windows; Linux execution is not inferred.
 - Final manual-only refresh: **PASS**, two additional passes under each of
   pdfLaTeX, XeLaTeX, and LuaLaTeX after adding the selected LPPL license, supplied attribution, and PDF metadata;
   all three final logs clean.
-- `prepare_assets.py`: **PASS**, two pdfLaTeX passes each for the eight-page
+- `prepare_assets.py`: **PASS**, two pdfLaTeX passes each for the fourteen-page
   guide and one-page README preview; checked-in assets have source fingerprints.
-- `l3build doc`: **PASS** in the preceding prototype cycle (two pdfLaTeX passes);
-  the final guide was refreshed through the commands above.
+- `l3build doc`: **PASS**, two pdfLaTeX passes for the renamed manual.
 - Source-metric commands: **PASS**; tables and exact counting method in
   API-COMPARISON.md. Counts read actual checked-in fixtures.
-- Release checks: **PASS**, 88 explicitly inventoried distribution files;
+- Release checks: **PASS**, 99 explicitly inventoried distribution files;
   required installation files, relative Markdown links, version/date, component
   notices, official license bytes, and source/asset fingerprints checked.
 - Release gate regressions: **PASS**, eight disposable-tree cases covering valid
@@ -54,7 +53,7 @@ python scripts/compare-inputs.py --model-only
 
 The manual refresh used each engine with
 `-interaction=nonstopmode -halt-on-error -no-shell-escape`,
-`-output-directory=output/pdf/<engine>`, and `docs/orlatex.tex`, twice.
+`-output-directory=output/pdf/<engine>`, and `docs/ormath.tex`, twice.
 Its final logs were checked independently for errors, undefined controls,
 over/underfull boxes, package/LaTeX warnings, missing glyphs, and unresolved refs.
 
@@ -80,7 +79,7 @@ The earlier engine-specific overflow baselines remain valid.
 
 | Feature | pdfLaTeX | XeLaTeX | LuaLaTeX |
 |---|---|---|---|
-| Canonical and alias loading | PASS | PASS | PASS |
+| Canonical ORmath loading | PASS | PASS | PASS |
 | Structured sets/parameters/types/models | PASS | PASS | PASS |
 | Unified notation and complete raw declarations | PASS | PASS | PASS |
 | Top-level >= / <= and scoped in | PASS | PASS | PASS |
@@ -94,7 +93,7 @@ The earlier engine-specific overflow baselines remain valid.
 | Min/max sense, numbering, notag, standard refs | PASS | PASS | PASS |
 | Hyperref reference integration | PASS | PASS | PASS |
 | Roman numbering and mixed row fonts | PASS | PASS | PASS |
-| Sixteen examples plus manual | PASS | PASS | PASS |
+| Twenty examples plus manual | PASS | PASS | PASS |
 | Thirty explicit constraint rows / pagination | PASS | PASS | PASS |
 | Accented prose / inherited font | PASS | PASS | PASS |
 | fontspec + unicode-math smoke test | NOT APPLICABLE | PASS | PASS |
@@ -105,7 +104,7 @@ test of these fonts, not a claim that all fonts and classes work.
 
 ## Regression coverage
 
-- `load-scope`: five original aliases, surrounding text/layout state, subsequent
+- `load-scope`: canonical loader, surrounding text/layout state, subsequent
   ordinary math font, ordinary equation/align counter behavior.
 - `semantics`: unexpanded records, explicit/plain set representations, indexed
   parameters, four structured variable types, objective and constraint metadata.
@@ -155,10 +154,10 @@ minipage and label suppression placed before a minipage (amsmath restores label
 there). The latter is now scoped inside it. No installed package code changed.
 
 Generated PDFs/logs: `output/pdf/pdflatex/`, `output/pdf/xelatex/`, and
-`output/pdf/lualatex/` (17 example/guide PDFs per engine; pdflatex also has the
-preview). The checked-in guide is `docs/orlatex.pdf`; the README image is
-`docs/images/quickstart.png`. `build/doc/orlatex.pdf` is the historical prototype
-build; use the checked-in or freshly compiled guide for the release candidate.
+`output/pdf/lualatex/` (21 example/guide PDFs per engine; pdflatex also has the
+preview). The checked-in guide is `docs/ormath.pdf`; the README image is
+`docs/images/quickstart.png`. `build/doc/ormath.pdf` is the l3build documentation
+output; use the checked-in or freshly compiled guide for the release candidate.
 Release preparation also inspected the final README preview and changed manual
 pages 1 and 8: attribution, version, license text, build commands, and spacing
 are legible with no clipping. Its PDF title/author metadata matches the guide.
@@ -201,11 +200,11 @@ objectives require explicit authored breaks. Models align expression starts,
 not relations. Multiline rows cannot split across pages; continuation headings
 are not repeated. Extremely narrow widths and overlong unbreakable domains can
 still overflow and are diagnosed. The fixture illustrates package usability;
-ORLaTeX does not validate the optimization model's mathematical correctness.
+ORmath does not validate the optimization model's mathematical correctness.
 Nested environments, subequations, arbitrary publisher classes, all font families,
 and older kernels have not been verified. LPPL 1.3c, copyright holder, and Current
 Maintainer were confirmed by the owner during release preparation. Hosted CI,
-Linux/TeX Live, CTAN packaging, and Overleaf upload were not performed. No public
-repository, remote, push, or release was created.
+Linux/TeX Live, CTAN packaging, and Overleaf upload were not performed. No tag or
+release was created.
 
 <!-- Copyright 2026 Imanol Felix Supo Mamani. Licensed under LPPL 1.3c. See NOTICE.md and MANIFEST.txt for work scope and maintenance. -->

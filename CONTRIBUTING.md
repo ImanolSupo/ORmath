@@ -1,4 +1,4 @@
-# Contributing to ORLaTeX
+# Contributing to ORmath
 
 Start with a minimal complete TeX example that explains the modeling or layout
 problem. Include the available width, package version, compiler, and distribution.
@@ -34,8 +34,8 @@ Do not run two l3build processes concurrently: they share and clear `build/test/
 Manual compilation without PowerShell:
 
 ```text
-pdflatex -interaction=nonstopmode -halt-on-error -no-shell-escape docs/orlatex.tex
-pdflatex -interaction=nonstopmode -halt-on-error -no-shell-escape docs/orlatex.tex
+pdflatex -interaction=nonstopmode -halt-on-error -no-shell-escape docs/ormath.tex
+pdflatex -interaction=nonstopmode -halt-on-error -no-shell-escape docs/ormath.tex
 ```
 
 Compile examples similarly, from the root so shared fixtures resolve. `l3build
@@ -64,8 +64,8 @@ script provides complementary checks of real user-facing message behavior.
 
 ## Implementation conventions
 
-Internal functions: `\__orlatex_...`. Local data: `\l__orlatex_...`.
-Default/setup/style stores: `\g__orlatex_...` (setup/styles still follow ordinary
+Internal functions: `\__ormath_...`. Local data: `\l__ormath_...`.
+Default/setup/style stores: `\g__ormath_...` (setup/styles still follow ordinary
 TeX scope). Public commands use `or...` names, with locally bound short aliases.
 Keep parsing, validation, storage, style resolution, measurement, and rendering
 separate. Preserve user math tokens without expansion. Do not infer membership,

@@ -1,10 +1,10 @@
-# ORLaTeX
+# ORmath
 
-*Also known as ORTeX and ORmath.*
+*Typesetting mathematical optimization models and notation.*
 
-> Write the model. Let ORLaTeX handle the layout.
+> Write the model. Let ORmath handle the layout.
 
-ORLaTeX is a lightweight, responsive LaTeX toolkit for writing and typesetting
+ORmath is a lightweight, responsive LaTeX toolkit for writing and typesetting
 mathematical optimization models. It keeps ordinary LaTeX mathematics while
 reducing repetitive layout work and adapting notation and models to the
 available width.
@@ -22,9 +22,9 @@ available width.
 \end{ormodel}
 ```
 
-![Real ORLaTeX output: compact, left-anchored definitions and a numbered production model.](docs/images/quickstart.png)
+![Real ORmath output: compact, left-anchored definitions and a numbered production model.](docs/images/quickstart.png)
 
-**Experimental version 0.1.0.** The API may change. ORLaTeX typesets models;
+**Experimental version 0.1.0.** The API may change. ORmath typesets models;
 it does not solve them or validate their mathematical correctness.
 
 ## Install and try
@@ -32,9 +32,9 @@ it does not solve them or validate their mathematical correctness.
 Use a current LaTeX distribution (kernel 2022-06-01 or newer). The package's only
 external package dependency is `amsmath`.
 
-1. Copy **both** [orlatex.sty](orlatex.sty) and
-   [orlatex-input.code.tex](orlatex-input.code.tex) beside your document.
-2. Add `\usepackage{orlatex}` to its preamble.
+1. Copy **both** [ormath.sty](ormath.sty) and
+   [ormath-input.code.tex](ormath-input.code.tex) beside your document.
+2. Add `\usepackage{ormath}` to its preamble.
 3. Compile twice to resolve equation references.
 
 For a complete first example, put [00-quickstart.tex](examples/00-quickstart.tex)
@@ -47,9 +47,8 @@ pdflatex 00-quickstart.tex
 
 XeLaTeX and LuaLaTeX also work with the tested examples. In a repository checkout,
 run `pdflatex examples/00-quickstart.tex` twice from the root. Advanced examples
-use shared fixtures, so compile them from the root too. Compatibility loaders
-`ortex` and `ormath` load the same implementation. To use either, also copy its
-wrapper file beside the two required files. Recommended loading is `orlatex`.
+use shared fixtures, so compile them from the root too. The only supported loader
+is `ormath`.
 
 ## What it handles
 
@@ -99,8 +98,8 @@ conveniences in raw variable declarations and lightweight model rows. Inside
 braced groups, keep native LaTeX operators. `!=` and `==` are not aliases;
 `n!=k` retains its ordinary factorial/equality meaning.
 
-Short names are local to ORLaTeX environments. See the
-[user guide](docs/orlatex.pdf) for options, structured commands, and numbering.
+Short names are local to ORmath environments. See the
+[user guide](docs/ormath.pdf) for options, structured commands, and numbering.
 
 Model domains use `domain-gap=auto`: normally 0.8em, reduced toward 0.3em when
 space is tight. If that row still cannot fit, its domain moves below; neighboring
@@ -133,7 +132,7 @@ unchanged.
 | [Narrow notation](examples/12-easy-narrow.tex) | Hanging continuations |
 | [Thirty constraints](examples/14-thirty-constraints.tex) | Model pagination and references |
 | [Adaptive tags](examples/19-adaptive-tags.tex) | Shared anchors, outliers, narrow domains and overrides |
-| [User guide PDF](docs/orlatex.pdf) / [source](docs/orlatex.tex) | Public API and limitations |
+| [User guide PDF](docs/ormath.pdf) / [source](docs/ormath.tex) | Public API and limitations |
 
 All example sources are in [examples](examples). For implementation background,
 see [architecture](ARCHITECTURE.md), [API comparisons](API-COMPARISON.md), and
@@ -141,7 +140,7 @@ see [architecture](ARCHITECTURE.md), [API comparisons](API-COMPARISON.md), and
 
 ## Current limits
 
-ORLaTeX is not an arbitrary TeX parser and does not automatically break long
+ORmath is not an arbitrary TeX parser and does not automatically break long
 mathematical expressions. Nested environments, verbatim content, and
 macro-generated row structure are outside the lightweight parser's supported
 scope. An indivisible multiline row cannot split across pages; continuation

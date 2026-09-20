@@ -12,7 +12,7 @@
     \setmathfont{Latin Modern Math}}{}
   \setmainfont{Latin Modern Roman}
 \fi
-\usepackage{orlatex}
+\usepackage{ormath}
 \begin{document}
 % Initialize the ordinary and small math sizes before the assertion log starts.
 \setbox0=\hbox{$x$}

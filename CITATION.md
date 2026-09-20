@@ -1,9 +1,8 @@
-# Citing ORLaTeX
+# Citing ORmath
 
-Suggested attribution: **Imanol Felix Supo Mamani. ORLaTeX, version 0.1.0, 2026.**
-The package is currently a locally prepared release candidate. No DOI or public
-repository URL exists yet. Add the actual repository or archival URL when citing
-a published version; do not invent one.
+Suggested attribution: **Imanol Felix Supo Mamani. ORmath, version 0.1.0, 2026.**
+Repository: https://github.com/ImanolSupo/ORmath. The package has no accepted
+public CTAN release or DOI yet; do not cite the rejected submission as a release.
 
 For reproducibility, record the package version and TeX engine/distribution used.
 

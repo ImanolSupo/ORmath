@@ -10,7 +10,7 @@ Push-Location (Split-Path -Parent $PSScriptRoot)
 try {
   $enginesToRun = if ($Engine -eq 'all') { @('pdflatex','xelatex','lualatex') } else { @($Engine) }
   $sourcesToCompile = @(Get-ChildItem -LiteralPath examples -Filter '*.tex' | Sort-Object Name)
-  $sourcesToCompile += Get-Item -LiteralPath docs/orlatex.tex
+  $sourcesToCompile += Get-Item -LiteralPath docs/ormath.tex
   foreach ($texEngine in $enginesToRun) {
     if (-not (Get-Command $texEngine -ErrorAction SilentlyContinue)) {
       throw "TeX engine unavailable: $texEngine"

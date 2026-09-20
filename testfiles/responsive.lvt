@@ -3,14 +3,14 @@
 
 \input regression-test.tex
 \documentclass{article}
-\usepackage{orlatex}
+\usepackage{ormath}
 \begin{document}
 \START
 \ExplSyntaxOn
-\cs_new_eq:NN \test_choose_domain: \__orlatex_choose_domain:
-\cs_set_protected:Npn \__orlatex_choose_domain:
+\cs_new_eq:NN \test_choose_domain: \__ormath_choose_domain:
+\cs_set_protected:Npn \__ormath_choose_domain:
   {\test_choose_domain:
-   \bool_if:NTF \l__orlatex_below_bool
+   \bool_if:NTF \l__ormath_below_bool
      {\TYPE{domain~below}}{\TYPE{domain~right}}}
 \setbox0=\vbox{
 \begin{ormodel}[numbering=none]

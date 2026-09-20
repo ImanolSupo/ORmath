@@ -3,18 +3,18 @@
 
 \input regression-test.tex
 \documentclass{article}
-\usepackage{orlatex}
+\usepackage{ormath}
 \begin{document}
 \setbox0=\hbox{$x$}
 \START
 \ExplSyntaxOn
-\cs_new_eq:NN \test_output:nn \__orlatex_notation_output:nn
-\cs_set_protected:Npn \__orlatex_notation_output:nn #1#2
-  {\bool_if:NTF \l__orlatex_single_bool
-     {\TYPE{ROW~\int_use:N\l__orlatex_row_int :~one~line}}
-     {\TYPE{ROW~\int_use:N\l__orlatex_row_int :~wrapped}
-      \bool_if:NF \l__orlatex_stacked_bool
-        {\dim_compare:nNnTF {\l__orlatex_prefix_dim}>{0pt}
+\cs_new_eq:NN \test_output:nn \__ormath_notation_output:nn
+\cs_set_protected:Npn \__ormath_notation_output:nn #1#2
+  {\bool_if:NTF \l__ormath_single_bool
+     {\TYPE{ROW~\int_use:N\l__ormath_row_int :~one~line}}
+     {\TYPE{ROW~\int_use:N\l__ormath_row_int :~wrapped}
+      \bool_if:NF \l__ormath_stacked_bool
+        {\dim_compare:nNnTF {\l__ormath_prefix_dim}>{0pt}
           {\TYPE{PASS:~hanging~continuation}}{\TYPE{FAIL:~indent}}}}
    \str_if_eq:eeTF {\use:c{f@size}}{10}
      {\TYPE{PASS:~normal~font~retained}}{\TYPE{FAIL:~font~reduced}}

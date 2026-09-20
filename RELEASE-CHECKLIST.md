@@ -25,7 +25,6 @@ l3build check
 python scripts/compile.py --engine all
 l3build doc
 python scripts/check_manual.py --engine all
-python scripts/check_aliases.py
 python scripts/prepare_assets.py
 python scripts/release.py inventory
 python scripts/release.py check

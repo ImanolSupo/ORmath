@@ -31,7 +31,7 @@ class ReleaseGates(unittest.TestCase):
         self.check()
 
     def test_missing_installation_helper(self):
-        (self.root / "orlatex-input.code.tex").unlink()
+        (self.root / "ormath-input.code.tex").unlink()
         with self.assertRaisesRegex(RuntimeError, "Missing or unsafe distribution file"):
             self.check()
 

@@ -4,21 +4,22 @@
 \documentclass[11pt]{article}
 \usepackage[margin=25mm]{geometry}
 \usepackage[T1]{fontenc}
-\usepackage{orlatex}
+\usepackage{ormath}
 \usepackage{array,longtable}
 \usepackage[hidelinks]{hyperref}
-\hypersetup{pdftitle={ORLaTeX user guide: experimental version 0.1.0},
-  pdfauthor={Imanol Felix Supo Mamani},pdfsubject={Optimization model typesetting}}
+\hypersetup{pdftitle={ORmath user guide: experimental version 0.1.0},
+  pdfauthor={Imanol Felix Supo Mamani},
+  pdfsubject={Typesetting mathematical optimization models and notation}}
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{4pt}
 \raggedbottom
 \newcommand{\key}[1]{\texttt{#1}}
 \newenvironment{sourceexample}{\par\noindent\begin{minipage}{\linewidth}\small}{\end{minipage}\par}
 \newcommand{\responsiveexample}{\InputIfFileExists{examples/fixtures/responsive-model.tex}{}{\input{responsive-model.tex}}}
-\title{ORLaTeX: write the model, not the layout\\[4pt]
-  {\large Also known as ORTeX and ORmath.}}
+\title{ORmath\\[4pt]
+  {\large Typesetting mathematical optimization models and notation}}
 \author{Imanol Felix Supo Mamani}
-\date{Experimental version 0.1.0, September 16, 2026}
+\date{Experimental version 0.1.0, September 20, 2026}
 \makeatletter
 \renewcommand{\maketitle}{\begin{center}
   {\Large\@title\par}\vspace{2pt}
@@ -28,22 +29,21 @@
 \makeatother
 \begin{document}
 \maketitle
-\section{What is ORLaTeX?}
-ORLaTeX is a lightweight, width-aware toolkit for mathematical optimization
+\section{What is ORmath?}
+ORmath is a lightweight, width-aware toolkit for mathematical optimization
 models. Use ordinary LaTeX mathematics; let the package arrange notation,
 index domains, and equation numbers. It typesets models without solving or
 validating them. The API is provisional; start with the lightweight workflow below.
-Recommended loading: \verb|\usepackage{orlatex}|. Optional loaders: \key{ortex},
-\key{ormath}; each shares the canonical implementation.
+Load the package with \verb|\usepackage{ormath}|.
 
 \section{Quick start}
-Copy \key{orlatex.sty} and \key{orlatex-input.code.tex} beside your document.
+Copy \key{ormath.sty} and \key{ormath-input.code.tex} beside your document.
 Save this complete example as \key{00-quickstart.tex} and compile twice.
 Here $I$ contains $n$ products, $c_i$ is unit profit, and $u_i\geq0$ is capacity.
 \begin{sourceexample}
 \begin{verbatim}
 \documentclass{article}
-\usepackage{orlatex}
+\usepackage{ormath}
 \begin{document}
 \begin{ornotation}
   \set[size=n]{I}{Products}
@@ -239,7 +239,7 @@ outer \verb|\\| still separates model rows. These are authored breaks.
 \end{sourceexample}
 Here $f_k,y_k$ are machine setup costs and indicators. Use \verb|{}+| or
 \verb|{}-| to preserve binary-operator spacing on a continuation line.
-ORLaTeX does not automatically split arbitrary mathematical expressions.
+ORmath does not automatically split arbitrary mathematical expressions.
 
 \clearpage
 \subsection{Indexed summations}
@@ -444,14 +444,14 @@ Begin with the defaults. For repeated visual choices, define a style and select
 it on an environment. This complete fragment uses the same lightweight rows.
 \begin{sourceexample}
 \begin{verbatim}
-\orlatexstyle{paper}{density=compact,row-gap=1.5pt}
+\ormathstyle{paper}{density=compact,row-gap=1.5pt}
 \begin{ormodel}[style=paper]
   \minimize \sum_{i\in I}p_i x_i \\
   \st x_i >= d_i \for{i in I}
 \end{ormodel}
 \end{verbatim}
 \end{sourceexample}
-\verb|\orlatexsetup{density=normal}| changes document defaults. Setup and style
+\verb|\ormathsetup{density=normal}| changes document defaults. Setup and style
 definitions follow TeX grouping: top-level definitions persist, grouped ones
 remain local. Styles contain visual keys and cannot select another \key{style}.
 The precedence is element options, environment options, named style, global
@@ -593,20 +593,14 @@ Namespaced structured commands are \verb|\orset|, \verb|\orparameter|,
 \verb|\orvariable|, \verb|\orobjective|, and \verb|\orconstraint|. Lightweight
 adapters also expose \verb|\orvar|, \verb|\orsetdef|, and \verb|\orfor| in their
 checked contexts. The short aliases exist only within their corresponding
-ORLaTeX environments; prior meanings are restored afterwards. These declaration
+ORmath environments; prior meanings are restored afterwards. These declaration
 commands diagnose use outside the required context. The mathematical operator
 \verb|\orsum| also works in ordinary math, with \verb|\Sum| local to models.
 
 \subsection{Package loading}
-Recommended loading remains \verb|\usepackage{orlatex}|. The compatibility
-loaders are listed below; each loads the same implementation.
-\par\noindent\begin{tabular}{@{}ll@{}}
-Recommended & \verb|\usepackage{orlatex}|\\
-Compatibility & \verb|\usepackage{ortex}|\\
-Compatibility & \verb|\usepackage{ormath}|
-\end{tabular}\par If using an alias, copy its wrapper file alongside the
-two canonical runtime files. Independent and duplicate loading are tested.
-No claim is made about CTAN availability or uniqueness of the names.
+Load ORmath with \verb|\usepackage{ormath}|. Copy \key{ormath.sty} and
+\key{ormath-input.code.tex} together for a local installation. No legacy or
+compatibility loaders are provided. No claim is made about CTAN availability.
 
 \clearpage
 \section{Realistic example}
@@ -639,9 +633,9 @@ external package dependency of the toolkit. The guide additionally uses
 geometry, array, longtable, fontenc, and hyperref.
 
 \section{Limitations and development status}
-Version 0.1.0 is experimental. ORLaTeX does not parse arbitrary mathematics,
+Version 0.1.0 is experimental. ORmath does not parse arbitrary mathematics,
 infer set membership, solve models, or validate their mathematical meaning.
-Explicit breaks are needed for some long expressions. Nested ORLaTeX
+Explicit breaks are needed for some long expressions. Nested ORmath
 environments, verbatim in mathematical content, and macro-generated row structure
 are unsupported. Models align expression starts rather than arbitrary relations.
 Very narrow contexts can overflow and are diagnosed.

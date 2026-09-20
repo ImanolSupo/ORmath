@@ -2,7 +2,7 @@
 % See NOTICE.md and MANIFEST.txt for work scope and maintenance.
 \documentclass{article}
 \usepackage[a4paper,margin=2.5cm]{geometry}
-\usepackage{orlatex}
+\usepackage{ormath}
 \begin{document}
 \section*{One source, compact responsive equation tags}
 \input{examples/fixtures/tag-target.tex}
@@ -79,7 +79,7 @@ Objective~\eqref{obj:tag-test}; constraint~\eqref{con:tag-test}.
   \minimize \sum_i c_i x_i \\
   \st x_i <= 10 \for{i in I}
 \end{ormodel}
-\orlatexstyle{tag-room}{tag-gap=12pt}
+\ormathstyle{tag-room}{tag-gap=12pt}
 \begin{ormodel}[style=tag-room]
   \objective[min]{\sum_i c_i x_i}
   \constraint[tag-gap=1em]{x_i\leq10}

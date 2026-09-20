@@ -18,19 +18,18 @@ Rendering + standard LaTeX labels
 
 ## Files and responsibilities
 
-`orlatex.sty` contains the shared, organized implementation of the first vertical
+`ormath.sty` contains the shared, organized implementation of the first vertical
 slice. Its sections separate diagnostics, configuration, semantic records,
 public commands, measurement, model rendering, declaration-block rendering, and
-environment bindings. `ortex.sty` and `ormath.sty` are thin wrappers that only
-load `orlatex`. ORLaTeX is canonical; ORTeX and ORmath name the same project.
+environment bindings. It loads the separate `ormath-input.code.tex` input adapter.
+ORmath has one package id and one loader: `ormath`.
 
 `build.lua` configures l3build for pdftex/xetex/luatex, two passes per test.
 `testfiles/` holds regression input and reviewed expected logs.
 `examples/fixtures/` contains a shared realistic semantic model and notation.
 `scripts/compile.py` compiles examples/manual and rejects unexpected diagnostics;
 `compile.ps1` remains a Windows alternative. `check_manual.py` compiles extracted
-guide examples; `check_aliases.py` tests isolated loader installations.
-`docs/orlatex.tex` is the user manual. Build artifacts are ignored under `build/`,
+guide examples. `docs/ormath.tex` is the user manual. Build artifacts are ignored under `build/`,
 `output/`, and `tmp/`.
 
 ## Public API and scoping
@@ -48,7 +47,7 @@ There is no persistent model registry, global margin change, or font selection.
 
 ## Semantic records
 
-`\l__orlatex_records_seq` stores seven separate, unexpanded fields:
+`\l__ormath_records_seq` stores seven separate, unexpanded fields:
 
 1. kind (`set`, `parameter`, `variable`, `min`, `max`, `constraint`);
 2. mathematical expression/symbol;
@@ -67,10 +66,10 @@ asserts this explicitly. Environment title and model label remain separate.
 ## Configuration
 
 Defaults, setup overrides, and named styles have separate property lists.
-`orlatex/config` parses visual keys into a temporary layer. Semantic key families
+`ormath/config` parses visual keys into a temporary layer. Semantic key families
 are separate, preventing styles from changing mathematical meaning.
-`\__orlatex_apply_layer:` applies a density preset first, followed by explicit
-values. `\__orlatex_resolve_layer:` inserts a named style beneath the current
+`\__ormath_apply_layer:` applies a density preset first, followed by explicit
+values. `\__ormath_resolve_layer:` inserts a named style beneath the current
 layer. Styles cannot recurse. The environment configuration is saved before
 element parsing; every element starts from it, preventing previous-row leakage.
 
@@ -153,7 +152,7 @@ creating hyperlinks or real counter increments.
 
 ## Input adapters
 
-`orlatex-input.code.tex` is installed with the package. It adds `ornotation`,
+`ormath-input.code.tex` is installed with the package. It adds `ornotation`,
 raw `orvar`, `orsetdef`, and a trailing `orfor` that replaces the last record's
 domain without expanding any fields. A body-captured `ormodel` detects literal
 leading `minimize`/`maximize`; other bodies execute the structured collector.

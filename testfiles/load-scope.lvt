@@ -3,7 +3,7 @@
 
 \input regression-test.tex
 \documentclass{article}
-\usepackage{ortex}
+\usepackage{ormath}
 \def\set{original-set}
 \def\parameter{original-parameter}
 \def\variable{original-variable}

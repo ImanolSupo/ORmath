@@ -3,7 +3,7 @@
 \input regression-test.tex
 \documentclass{article}
 \def\Sum{external-sum}\let\savedSum\Sum
-\usepackage{orlatex}
+\usepackage{ormath}
 \def\IndexSet{\mathcal{I}}
 \begin{document}
 \setbox0=\hbox{$x$}
@@ -14,7 +14,7 @@
 \test_assert:nn {\cs_if_eq_p:NN \Sum\savedSum}{external~Sum~untouched~on~load}
 \cs_new_protected:Npn \test_spec:nnn #1#2#3
   {\group_begin:
-   \__orlatex_sum_spec:nN {#1}\l_tmpa_tl
+   \__ormath_sum_spec:nN {#1}\l_tmpa_tl
    \tl_if_eq:NnTF \l_tmpa_tl {#2}
      {\TYPE{PASS:~#3}}{\TYPE{FAIL:~#3}}
    \group_end:}
@@ -65,20 +65,20 @@
 \ExplSyntaxOn
 \group_begin:
 \cs_set_protected:Npn \msg_error:nnn #1#2#3 {\TYPE{ERROR:~#2:~#3}}
-\__orlatex_sum_spec:nN {i~I}\l_tmpa_tl
-\__orlatex_sum_spec:nN {i~in}\l_tmpa_tl
-\__orlatex_sum_spec:nN {in~I}\l_tmpa_tl
-\__orlatex_sum_spec:nN {i~in~I~where}\l_tmpa_tl
-\__orlatex_sum_spec:nN {i~in~I~where~d_i>0~where~a_i=1}\l_tmpa_tl
-\__orlatex_sum_spec:nN {i~in~I~where~where}\l_tmpa_tl
-\__orlatex_sum_spec:nN {i~in~I~where~d_i>0,j~in~J}\l_tmpa_tl
-\__orlatex_sum_spec:nN {i~in~I,}\l_tmpa_tl
-\__orlatex_sum_spec:nN {(i,j~in~A}\l_tmpa_tl
+\__ormath_sum_spec:nN {i~I}\l_tmpa_tl
+\__ormath_sum_spec:nN {i~in}\l_tmpa_tl
+\__ormath_sum_spec:nN {in~I}\l_tmpa_tl
+\__ormath_sum_spec:nN {i~in~I~where}\l_tmpa_tl
+\__ormath_sum_spec:nN {i~in~I~where~d_i>0~where~a_i=1}\l_tmpa_tl
+\__ormath_sum_spec:nN {i~in~I~where~where}\l_tmpa_tl
+\__ormath_sum_spec:nN {i~in~I~where~d_i>0,j~in~J}\l_tmpa_tl
+\__ormath_sum_spec:nN {i~in~I,}\l_tmpa_tl
+\__ormath_sum_spec:nN {(i,j~in~A}\l_tmpa_tl
 \group_end:
 \ExplSyntaxOff
 \ExplSyntaxOn
-\cs_new_eq:NN \test_sum_row:nnnnnnn \__orlatex_model_row:nnnnnnn
-\cs_set_protected:Npn \__orlatex_model_row:nnnnnnn #1#2#3#4#5#6#7
+\cs_new_eq:NN \test_sum_row:nnnnnnn \__ormath_model_row:nnnnnnn
+\cs_set_protected:Npn \__ormath_model_row:nnnnnnn #1#2#3#4#5#6#7
   {\tl_if_blank:nF {#5}{\TYPE{label:~#5}}
    \test_sum_row:nnnnnnn {#1}{#2}{#3}{#4}{#5}{#6}{#7}}
 \ExplSyntaxOff

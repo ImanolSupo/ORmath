@@ -179,7 +179,7 @@ counter/label integration, and alias package remain. Notation rendering replaces
 block-wide columns with row measurement and flowing/hanging paragraphs. The
 private resolved row flag `suppress-tag` carries `\notag`, and measurement skips
 such rows without changing real counters. The input adapter is installed as
-`orlatex-input.code.tex`. `build.lua` now copies/installs it with the package.
+`ormath-input.code.tex`. `build.lua` now copies/installs it with the package.
 There is no second package renderer or engine-specific mathematics path.
 
 ## Known risks and recommendation

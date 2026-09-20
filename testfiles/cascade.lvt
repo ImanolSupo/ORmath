@@ -3,20 +3,20 @@
 
 \input regression-test.tex
 \documentclass{article}
-\usepackage{orlatex}
+\usepackage{ormath}
 \begin{document}
 \START
 \ExplSyntaxOn
 \cs_new_protected:Npn \test_gap:n #1
-  {\prop_get:NnN \l__orlatex_config_prop {row-gap}\l_tmpa_tl
+  {\prop_get:NnN \l__ormath_config_prop {row-gap}\l_tmpa_tl
    \dim_compare:nNnTF {\l_tmpa_tl}={#1}
      {\TYPE{PASS:~row-gap=#1}}{\TYPE{FAIL:~expected~#1;~actual~\l_tmpa_tl}}}
 \setbox0=\vbox{
 \begin{ormodel}\objective{x}\test_gap:n{2pt}\end{ormodel}}
-\orlatexsetup{row-gap=1pt}
+\ormathsetup{row-gap=1pt}
 \setbox0=\vbox{
 \begin{ormodel}\objective{x}\test_gap:n{1pt}\end{ormodel}}
-\orlatexstyle{paper}{row-gap=2pt,density=compact}
+\ormathstyle{paper}{row-gap=2pt,density=compact}
 \setbox0=\vbox{
 \begin{ormodel}[style=paper]\objective{x}\test_gap:n{2pt}\end{ormodel}
 \begin{ormodel}[row-gap=3pt,style=paper]
@@ -24,7 +24,7 @@
   \constraint[row-gap=5pt]{x\leq1}\test_gap:n{5pt}
   \constraint{x\geq0}\test_gap:n{3pt}
 \end{ormodel}}
-\orlatexstyle{detail}{font-size=small,row-gap=6pt}
+\ormathstyle{detail}{font-size=small,row-gap=6pt}
 \setbox0=\vbox{
 \begin{ormodel}[style=paper,row-gap=3pt]
   \objective{x}\constraint[style=detail]{x\leq1}\test_gap:n{6pt}
@@ -32,7 +32,7 @@
 \end{ormodel}
 \begin{ormodel}[row-gap=8pt,density=dense]\objective{x}\test_gap:n{8pt}\end{ormodel}
 \begin{ormodel}[density=dense,row-gap=8pt]\objective{x}\test_gap:n{8pt}\end{ormodel}}
-\group_begin:\orlatexsetup{row-gap=20pt}\group_end:
+\group_begin:\ormathsetup{row-gap=20pt}\group_end:
 \setbox0=\vbox{\begin{ormodel}\objective{x}\test_gap:n{1pt}\end{ormodel}}
 \ExplSyntaxOff
 \END

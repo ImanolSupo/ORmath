@@ -38,7 +38,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--engine", choices=("all", *ENGINES), default="pdflatex")
     args = parser.parse_args()
-    sources = sorted((ROOT / "examples").glob("*.tex")) + [ROOT / "docs/orlatex.tex"]
+    sources = sorted((ROOT / "examples").glob("*.tex")) + [ROOT / "docs/ormath.tex"]
     for engine in ENGINES if args.engine == "all" else (args.engine,):
         for source in sources:
             compile_source(source, engine, ROOT / "output/pdf" / engine)

@@ -1,14 +1,11 @@
-# ORLaTeX design notes
+# ORmath design notes
 
 ## Public naming and teaching path — 2026-09-16
 
-ORLaTeX is the canonical project name and `orlatex` the canonical package.
-ORTeX and ORmath are public aliases for this same project. `ortex.sty` and
-`ormath.sty` only require `orlatex`; they contain no semantic or rendering logic.
-The installed MiKTeX search found no existing `ormath.sty` before its addition.
-This is a local conflict check, not a claim of registry uniqueness or availability.
-Independent loading and both canonical-first and alias-first duplicate loading
-have shared regression contracts and isolated smoke tests.
+ORmath is the canonical project name and `ormath` the canonical package.
+The implementation is in `ormath.sty`, with the input adapter in
+`ormath-input.code.tex`. No compatibility loaders are retained because the
+earlier package identity was never accepted for publication on CTAN.
 
 The manual now starts with a complete lightweight example and a two-page path
 through notation, index domains, objective senses, rows, and standard references.

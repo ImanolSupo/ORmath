@@ -2,7 +2,7 @@
 
 Copyright 2026 Imanol Felix Supo Mamani.
 
-ORLaTeX may be distributed and/or modified under the conditions of the LaTeX
+ORmath may be distributed and/or modified under the conditions of the LaTeX
 Project Public License, version 1.3c. The complete, unmodified license text is in
 [LICENSE](LICENSE); its official source is the
 [LaTeX Project](https://www.latex-project.org/lppl/lppl-1-3c.txt).
@@ -18,4 +18,4 @@ the work. Archive MANIFEST.json is an additional generated integrity index.
 
 The LICENSE document itself retains the LaTeX3 Project's original copyright
 and its permission for verbatim distribution. The LPPL notice above applies
-to ORLaTeX, not to third-party dependencies or the license document's authorship.
+to ORmath, not to third-party dependencies or the license document's authorship.

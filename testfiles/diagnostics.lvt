@@ -3,7 +3,7 @@
 
 \input regression-test.tex
 \documentclass{article}
-\usepackage{orlatex}
+\usepackage{ormath}
 \begin{document}
 \START
 \ExplSyntaxOn
@@ -13,7 +13,7 @@
 \cs_set_protected:Npn \msg_error:nnnn #1#2#3#4 {\TYPE{ERROR:~#1/#2}}
 \cs_set_protected:Npn \msg_warning:nnn #1#2#3 {\TYPE{WARNING:~#1/#2}}
 \orset{I}{Wrong context.}
-\orlatexstyle{nested}{style=missing}
+\ormathstyle{nested}{style=missing}
 \setbox0=\vbox{
 \begin{orsets}\set[size=n,elements={A,B}]{I}{Invalid.}\end{orsets}
 \begin{ormodel}[style=missing]

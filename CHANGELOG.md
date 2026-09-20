@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Rename the package to ORmath with the sole loader `ormath`, move the runtime
+  implementation and input module to that identity, and remove legacy loaders
+  and alias-only tests.
+
 - Add public `\orsum` and model-local `\Sum` indexed summation shorthand,
   with one operator per command, shared membership parsing, an optional single
   mathematical `where` condition, and starred raw subscripts.
@@ -19,7 +23,7 @@
 - Cover responsive tags with regression contracts, visual fixtures, and manual
   examples; split semantic regression records to avoid platform log wrapping.
 
-## 0.1.0 — 2026-09-16 (local release candidate)
+## 0.1.0 — 2026-09-16 (rejected CTAN submission; never published)
 
 - Reorganized the guide around a self-contained two-page lightweight workflow,
   a visual width comparison, scannable option tables, and an advanced API section.

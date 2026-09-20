@@ -23,7 +23,7 @@ body:
     id: environment
     attributes:
       label: Environment
-      description: ORLaTeX version, compiler, and TeX distribution/version.
+      description: ORmath version, compiler, and TeX distribution/version.
     validations:
       required: true
   - type: textarea

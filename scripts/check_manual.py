@@ -11,7 +11,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--engine", choices=("all", *ENGINES), default="pdflatex")
     args = parser.parse_args()
-    manual = (ROOT / "docs/orlatex.tex").read_text(encoding="utf-8")
+    manual = (ROOT / "docs/ormath.tex").read_text(encoding="utf-8")
     blocks = re.findall(r"\\begin\{verbatim\}\n(.*?)\\end\{verbatim\}", manual, re.S)
     quickstart = (ROOT / "examples/00-quickstart.tex").read_text(encoding="utf-8")
     quickstart = quickstart[quickstart.index("\\documentclass"):]
@@ -29,7 +29,7 @@ def main():
         if block.startswith("l3build check\n"):
             continue  # Explicitly described as shell commands in the guide.
         if "\\begin{document}" not in block:
-            block = "\\documentclass[11pt]{article}\n\\usepackage{orlatex}\n\\begin{document}\n" + block + "\\end{document}\n"
+            block = "\\documentclass[11pt]{article}\n\\usepackage{ormath}\n\\begin{document}\n" + block + "\\end{document}\n"
         source = staging / f"guide-{index:02d}.tex"
         source.write_text(block, encoding="utf-8")
         sources.append(source)

@@ -3,7 +3,7 @@
 
 \input regression-test.tex
 \documentclass{article}
-\usepackage{orlatex}
+\usepackage{ormath}
 \usepackage{hyperref}
 \def\minimize{original-min}\let\savedminimize\minimize
 \def\maximize{original-max}\let\savedmaximize\maximize
@@ -11,8 +11,8 @@
 \begin{document}
 \START
 \ExplSyntaxOn
-\cs_new_eq:NN \test_model_row:nnnnnnn \__orlatex_model_row:nnnnnnn
-\cs_set_protected:Npn \__orlatex_model_row:nnnnnnn #1#2#3#4#5#6#7
+\cs_new_eq:NN \test_model_row:nnnnnnn \__ormath_model_row:nnnnnnn
+\cs_set_protected:Npn \__ormath_model_row:nnnnnnn #1#2#3#4#5#6#7
   {\str_if_eq:nnT {#1}{max}{\TYPE{PASS:~maximize~retains~max~sense}}
    \test_model_row:nnnnnnn {#1}{#2}{#3}{#4}{#5}{#6}{#7}}
 \ExplSyntaxOff

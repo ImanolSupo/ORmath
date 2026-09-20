@@ -4,7 +4,7 @@
 \input regression-test.tex
 \documentclass{article}
 \usepackage[T1]{fontenc}
-\usepackage{orlatex}
+\usepackage{ormath}
 \def\Cost{c}
 \def\Domain{i\in I}
 \def\param{original-param}\let\savedparam\param
@@ -21,9 +21,9 @@
    \TYPE{domain={\tl_to_str:n{#4}}}
    \TYPE{type=\tl_to_str:n{#7}}
    \str_if_eq:nnF {#1}{variable}{\TYPE{prose=\tl_to_str:n{#3}}}}
-\cs_new_eq:NN \test_render: \__orlatex_descriptions_render:
-\cs_set_protected:Npn \__orlatex_descriptions_render:
-  {\seq_map_inline:Nn \l__orlatex_records_seq {\test_record:nnnnnnn ##1}\test_render:}
+\cs_new_eq:NN \test_render: \__ormath_descriptions_render:
+\cs_set_protected:Npn \__ormath_descriptions_render:
+  {\seq_map_inline:Nn \l__ormath_records_seq {\test_record:nnnnnnn ##1}\test_render:}
 \cs_set_protected:Npn \msg_error:nnn #1#2#3 {\TYPE{ERROR:~#1/#2}}
 \ExplSyntaxOff
 \setbox0=\vbox{

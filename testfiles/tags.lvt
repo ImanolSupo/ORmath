@@ -2,60 +2,60 @@
 % See NOTICE.md and MANIFEST.txt for work scope and maintenance.
 \input regression-test.tex
 \documentclass{article}
-\usepackage{orlatex}
+\usepackage{ormath}
 \begin{document}
 \setbox0=\hbox{$x$}
 \START
 \ExplSyntaxOn
 \cs_new_protected:Npn \test_assert:nn #1#2
   {\bool_if:nTF {#1}{\TYPE{PASS:~#2}}{\TYPE{FAIL:~#2}}}
-\__orlatex_environment_begin:nn {model}{}
-\tl_set:Nn \l__orlatex_layout_tl {auto}
-\dim_set:Nn \l__orlatex_marker_dim {20pt}
-\hbox_set:Nn \l__orlatex_expression_box {\hbox_to_wd:nn {40pt}{\hfil}}
-\hbox_set:Nn \l__orlatex_domain_box {\hbox_to_wd:nn {20pt}{\hfil}}
-\hbox_set:Nn \l__orlatex_number_box {\hbox_to_wd:nn {10pt}{\hfil}}
-\dim_set:Nn \l__orlatex_width_dim {300pt}
-\__orlatex_fit_tagged_row:
-\dim_set_eq:NN \l_tmpa_dim \l__orlatex_tag_gap_dim
-\test_assert:nn {\dim_compare_p:n {\l__orlatex_tag_gap_dim<=2em}}{wide~gap~bounded}
-\dim_set:Nn \l__orlatex_width_dim {160pt}
-\__orlatex_fit_tagged_row:
-\test_assert:nn {\dim_compare_p:n {\l__orlatex_tag_gap_dim<\l_tmpa_dim}}{gap~responds~to~width}
-\dim_set:Nn \l__orlatex_width_dim {100pt}
-\__orlatex_fit_tagged_row:
-\test_assert:nn {!\l__orlatex_below_bool}{both~gaps~compress~before~stacking}
-\test_assert:nn {\dim_compare_p:n {\l__orlatex_gap_dim=.3em}}{domain~minimum~respected}
-\test_assert:nn {\dim_compare_p:n {\l__orlatex_tag_gap_dim>=.5em}}{tag~minimum~respected}
-\dim_set:Nn \l__orlatex_width_dim {96pt}
-\__orlatex_fit_tagged_row:
-\test_assert:nn {\l__orlatex_below_bool}{domain~stacks~when~minima~cannot~fit}
-\test_assert:nn {\dim_compare_p:n {\l__orlatex_row_extent_dim=40pt}}{tag~follows~expression~line}
-\prop_put:Nnn \l__orlatex_config_prop {tag-gap}{12pt}
-\__orlatex_fit_tagged_row:
-\test_assert:nn {\dim_compare_p:n {\l__orlatex_tag_gap_dim=12pt}}{explicit~gap~retained}
-\hbox_set:Nn \l__orlatex_number_box {}
-\__orlatex_fit_tagged_row:
-\test_assert:nn {\dim_compare_p:n {\l__orlatex_tag_gap_dim=0pt}}{untagged~row~reserves~no~gap}
-\seq_set_from_clist:Nn \l__orlatex_tag_extents_seq {100pt,110pt,120pt,400pt}
-\__orlatex_choose_tag_anchor:
-\test_assert:nn {\dim_compare_p:n {\l__orlatex_tag_anchor_dim=150pt}}{one~outlier~cannot~widen~common~anchor}
-\seq_set_from_clist:Nn \l__orlatex_tag_extents_seq {100pt,110pt,120pt,125pt}
-\__orlatex_choose_tag_anchor:
-\test_assert:nn {\dim_compare_p:n {\l__orlatex_tag_anchor_dim=125pt}}{normal~rows~share~natural~anchor}
-\seq_set_from_clist:Nn \l__orlatex_tag_extents_seq {100pt,400pt}
-\__orlatex_choose_tag_anchor:
-\test_assert:nn {\dim_compare_p:n {\l__orlatex_tag_anchor_dim=125pt}}{two~row~outlier~bounded}
-\seq_clear:N \l__orlatex_tag_extents_seq
-\__orlatex_choose_tag_anchor:
-\test_assert:nn {\dim_compare_p:n {\l__orlatex_tag_anchor_dim=0pt}}{no~tags~no~anchor}
-\tl_clear:N \l__orlatex_context_tl
-\orlatexsetup{tag-gap=2em}
-\orlatexstyle{tagtest}{tag-gap=12pt,tag-position=right}
-\cs_new_eq:NN \test_prepare: \__orlatex_prepare_model:
-\cs_set_protected:Npn \__orlatex_prepare_model:
+\__ormath_environment_begin:nn {model}{}
+\tl_set:Nn \l__ormath_layout_tl {auto}
+\dim_set:Nn \l__ormath_marker_dim {20pt}
+\hbox_set:Nn \l__ormath_expression_box {\hbox_to_wd:nn {40pt}{\hfil}}
+\hbox_set:Nn \l__ormath_domain_box {\hbox_to_wd:nn {20pt}{\hfil}}
+\hbox_set:Nn \l__ormath_number_box {\hbox_to_wd:nn {10pt}{\hfil}}
+\dim_set:Nn \l__ormath_width_dim {300pt}
+\__ormath_fit_tagged_row:
+\dim_set_eq:NN \l_tmpa_dim \l__ormath_tag_gap_dim
+\test_assert:nn {\dim_compare_p:n {\l__ormath_tag_gap_dim<=2em}}{wide~gap~bounded}
+\dim_set:Nn \l__ormath_width_dim {160pt}
+\__ormath_fit_tagged_row:
+\test_assert:nn {\dim_compare_p:n {\l__ormath_tag_gap_dim<\l_tmpa_dim}}{gap~responds~to~width}
+\dim_set:Nn \l__ormath_width_dim {100pt}
+\__ormath_fit_tagged_row:
+\test_assert:nn {!\l__ormath_below_bool}{both~gaps~compress~before~stacking}
+\test_assert:nn {\dim_compare_p:n {\l__ormath_gap_dim=.3em}}{domain~minimum~respected}
+\test_assert:nn {\dim_compare_p:n {\l__ormath_tag_gap_dim>=.5em}}{tag~minimum~respected}
+\dim_set:Nn \l__ormath_width_dim {96pt}
+\__ormath_fit_tagged_row:
+\test_assert:nn {\l__ormath_below_bool}{domain~stacks~when~minima~cannot~fit}
+\test_assert:nn {\dim_compare_p:n {\l__ormath_row_extent_dim=40pt}}{tag~follows~expression~line}
+\prop_put:Nnn \l__ormath_config_prop {tag-gap}{12pt}
+\__ormath_fit_tagged_row:
+\test_assert:nn {\dim_compare_p:n {\l__ormath_tag_gap_dim=12pt}}{explicit~gap~retained}
+\hbox_set:Nn \l__ormath_number_box {}
+\__ormath_fit_tagged_row:
+\test_assert:nn {\dim_compare_p:n {\l__ormath_tag_gap_dim=0pt}}{untagged~row~reserves~no~gap}
+\seq_set_from_clist:Nn \l__ormath_tag_extents_seq {100pt,110pt,120pt,400pt}
+\__ormath_choose_tag_anchor:
+\test_assert:nn {\dim_compare_p:n {\l__ormath_tag_anchor_dim=150pt}}{one~outlier~cannot~widen~common~anchor}
+\seq_set_from_clist:Nn \l__ormath_tag_extents_seq {100pt,110pt,120pt,125pt}
+\__ormath_choose_tag_anchor:
+\test_assert:nn {\dim_compare_p:n {\l__ormath_tag_anchor_dim=125pt}}{normal~rows~share~natural~anchor}
+\seq_set_from_clist:Nn \l__ormath_tag_extents_seq {100pt,400pt}
+\__ormath_choose_tag_anchor:
+\test_assert:nn {\dim_compare_p:n {\l__ormath_tag_anchor_dim=125pt}}{two~row~outlier~bounded}
+\seq_clear:N \l__ormath_tag_extents_seq
+\__ormath_choose_tag_anchor:
+\test_assert:nn {\dim_compare_p:n {\l__ormath_tag_anchor_dim=0pt}}{no~tags~no~anchor}
+\tl_clear:N \l__ormath_context_tl
+\ormathsetup{tag-gap=2em}
+\ormathstyle{tagtest}{tag-gap=12pt,tag-position=right}
+\cs_new_eq:NN \test_prepare: \__ormath_prepare_model:
+\cs_set_protected:Npn \__ormath_prepare_model:
   {\test_prepare:
-   \seq_map_inline:Nn \l__orlatex_records_seq {\test_config:nnnnnnn ##1}}
+   \seq_map_inline:Nn \l__ormath_records_seq {\test_config:nnnnnnn ##1}}
 \cs_new_protected:Npn \test_config:nnnnnnn #1#2#3#4#5#6#7
   {\tl_set:Nn \l_tmpa_prop {#6}
    \prop_get:NnN \l_tmpa_prop {tag-gap}\l_tmpa_tl
@@ -69,18 +69,18 @@
   \constraint{x\geq0}
 \end{ormodel}}
 \test_assert:nn {\int_compare_p:n {\value{equation}=3}}{measurement~preserves~counter}
-\orlatexsetup{tag-gap=auto}
+\ormathsetup{tag-gap=auto}
 \setbox0=\vbox{\begin{ormodel}[numbering=none]
   \minimize x \\ \st x<=1
 \end{ormodel}}
 \test_assert:nn {\int_compare_p:n {\value{equation}=3}}{none~preserves~counter}
-\cs_new_eq:NN \test_row:nnnnnnn \__orlatex_model_row:nnnnnnn
-\cs_set_protected:Npn \__orlatex_model_row:nnnnnnn #1#2#3#4#5#6#7
+\cs_new_eq:NN \test_row:nnnnnnn \__ormath_model_row:nnnnnnn
+\cs_set_protected:Npn \__ormath_model_row:nnnnnnn #1#2#3#4#5#6#7
   {\tl_if_eq:nnT {#2}{\theequation}
-     {\__orlatex_math_box:Nn \l_tmpa_box {\theequation}
+     {\__ormath_math_box:Nn \l_tmpa_box {\theequation}
       \test_assert:nn
         {\dim_compare_p:n {\box_wd:N\l_tmpa_box=
-          \box_wd:c{l__orlatex_row_\int_eval:n{\l__orlatex_row_int+1}_expression_box}}}
+          \box_wd:c{l__ormath_row_\int_eval:n{\l__ormath_row_int+1}_expression_box}}}
         {cached~math~sees~preceding~counter}}
    \test_row:nnnnnnn {#1}{#2}{#3}{#4}{#5}{#6}{#7}}
 \setcounter{equation}{9}

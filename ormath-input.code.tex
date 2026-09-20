@@ -1,0 +1,289 @@
+% Copyright 2026 Imanol Felix Supo Mamani. Licensed under LPPL 1.3c.
+% See NOTICE.md and MANIFEST.txt for work scope and maintenance.
+
+% Scoped prototype input adapters. All paths collect the package's seven fields.
+\msg_new:nnn {ormath}{input}
+  { Invalid~input:~#1. }
+\tl_new:N \l__ormath_input_tl
+\tl_new:N \l__ormath_input_expression_tl
+\tl_new:N \l__ormath_input_domain_tl
+\tl_new:N \l__ormath_input_label_tl
+\tl_new:N \l__ormath_input_kind_tl
+\bool_new:N \l__ormath_input_notag_bool
+\bool_new:N \l__ormath_input_raw_bool
+\seq_new:N \l__ormath_input_rows_seq
+\tl_new:N \l__ormath_domain_scan_tl
+\tl_new:N \l__ormath_domain_clause_tl
+\seq_new:N \l__ormath_domain_parts_seq
+\int_new:N \l__ormath_domain_parentheses_int
+\bool_new:N \l__ormath_sum_domain_bool
+\seq_new:N \l__ormath_sum_memberships_seq
+\seq_new:N \l__ormath_sum_where_seq
+\tl_new:N \l__ormath_sum_spec_tl
+\tl_new:N \l__ormath_sum_condition_tl
+\msg_new:nnn {ormath}{sum-input}
+  { Invalid~summation:~#1.~Use~\string\Sum*~or~\string\orsum*~for~raw~math. }
+\cs_new_protected:Npn \__ormath_domain_error:nn #1#2
+  {\bool_if:NTF \l__ormath_sum_domain_bool
+    {\msg_error:nnn {ormath}{sum-input}{#2}}
+    {\msg_error:nnn {ormath}{input}{#1}}}
+\cs_generate_variant:Nn \tl_if_head_is_group:nTF {V}
+\cs_generate_variant:Nn \tl_if_head_eq_meaning:nNTF {V}
+\cs_generate_variant:Nn \tl_if_head_eq_meaning:nNT {V}
+\cs_new_protected:Npn \__ormath_input_normalize:N #1
+  {
+    % Delimited token replacement respects brace groups; never expand input.
+    \tl_replace_all:Nnn #1 {>=}{\geq}
+    \tl_replace_all:Nnn #1 {<=}{\leq}
+  }
+\cs_new_protected:Npn \__ormath_domain_clause:
+  {
+    \seq_set_split:NnV \l__ormath_domain_parts_seq {\in}\l__ormath_domain_clause_tl
+    \int_compare:nNnTF {\seq_count:N\l__ormath_domain_parts_seq}={2}
+      {\seq_map_inline:Nn \l__ormath_domain_parts_seq
+        {\tl_if_blank:nT {##1}
+          {\__ormath_domain_error:nn
+            {membership~needs~both~an~index~and~a~set}
+            {membership~needs~both~an~index~and~a~set}}}}
+      {\__ormath_domain_error:nn
+        {each~domain~clause~needs~one~membership;~use~i~in~I~or~\string\for*}
+        {each~clause~needs~one~membership:~index~in~set}}
+    \bool_if:NT \l__ormath_sum_domain_bool
+      {\seq_put_right:NV \l__ormath_sum_memberships_seq \l__ormath_domain_clause_tl}
+    \tl_clear:N \l__ormath_domain_clause_tl
+  }
+\cs_new_protected:Npn \__ormath_domain_scan:
+  {
+    \tl_trim_spaces:N \l__ormath_domain_scan_tl
+    \tl_if_empty:NF \l__ormath_domain_scan_tl
+      {
+        \tl_if_head_is_group:VTF \l__ormath_domain_scan_tl
+          {\tl_put_right:Nx \l__ormath_domain_clause_tl
+            {{\tl_head:N\l__ormath_domain_scan_tl}}}
+          {
+            \tl_if_head_eq_meaning:VNT \l__ormath_domain_scan_tl (
+              {\int_incr:N\l__ormath_domain_parentheses_int}
+            \tl_if_head_eq_meaning:VNT \l__ormath_domain_scan_tl )
+              {\int_decr:N\l__ormath_domain_parentheses_int}
+            \tl_if_head_eq_meaning:VNTF \l__ormath_domain_scan_tl ,
+              {\int_compare:nNnTF {\l__ormath_domain_parentheses_int}={0}
+                {\__ormath_domain_clause:}
+                {\tl_put_right:Nn\l__ormath_domain_clause_tl {,}}}
+              {\tl_put_right:Nx\l__ormath_domain_clause_tl
+                {\tl_head:N\l__ormath_domain_scan_tl}}
+          }
+        \tl_set:Nx \l__ormath_domain_scan_tl {\tl_tail:N\l__ormath_domain_scan_tl}
+        \__ormath_domain_scan:
+      }
+  }
+\cs_new_protected:Npn \__ormath_input_domain:nN #1#2
+  {
+    \tl_set:Nn #2 {#1}
+    \tl_trim_spaces:N #2
+    \bool_if:NF \l__ormath_input_raw_bool
+      {
+        \tl_replace_all:Nnn #2 {~in~}{\in}
+        \__ormath_input_normalize:N #2
+        \tl_set_eq:NN \l__ormath_domain_scan_tl #2
+        \tl_clear:N\l__ormath_domain_clause_tl
+        \int_zero:N\l__ormath_domain_parentheses_int
+        \__ormath_domain_scan:
+        \__ormath_domain_clause:
+        \int_compare:nNnF {\l__ormath_domain_parentheses_int}={0}
+          {\__ormath_domain_error:nn
+            {unbalanced~domain~tuple;~use~\string\for*~for~raw~math}
+            {unbalanced~membership~parentheses}}
+      }
+  }
+% The membership scanner is shared with \for. Only the specification is parsed;
+% the summand remains ordinary math following this operator.
+\cs_new_protected:Npn \__ormath_sum_spec:nN #1#2
+  {
+    \bool_set_true:N \l__ormath_sum_domain_bool
+    \bool_set_false:N \l__ormath_input_raw_bool
+    \seq_clear:N \l__ormath_sum_memberships_seq
+    % Padding recognizes standalone keywords at either argument boundary.
+    % Token delimiters skip brace groups and never expand supplied math.
+    \tl_set:Nn \l__ormath_sum_spec_tl {~#1~}
+    \seq_set_split:NnV \l__ormath_sum_where_seq {~where~}\l__ormath_sum_spec_tl
+    \int_compare:nNnT {\seq_count:N\l__ormath_sum_where_seq}>{2}
+      {\msg_error:nnn {ormath}{sum-input}{where~may~appear~only~once}}
+    \tl_set:Nx \l__ormath_sum_spec_tl
+      {\seq_item:Nn \l__ormath_sum_where_seq {1}}
+    \tl_clear:N \l__ormath_sum_condition_tl
+    \int_compare:nNnT {\seq_count:N\l__ormath_sum_where_seq}>{1}
+      {\tl_set:Nx \l__ormath_sum_condition_tl
+         {\seq_item:Nn \l__ormath_sum_where_seq {2}}
+       \tl_if_blank:VT \l__ormath_sum_condition_tl
+         {\msg_error:nnn {ormath}{sum-input}{where~needs~a~condition}}
+       \tl_put_left:Nn \l__ormath_sum_condition_tl {~}
+       \tl_put_right:Nn \l__ormath_sum_condition_tl {~}
+       \tl_if_in:VnT \l__ormath_sum_condition_tl {~where~}
+         {\int_compare:nNnT {\seq_count:N\l__ormath_sum_where_seq}<{3}
+           {\msg_error:nnn {ormath}{sum-input}{where~may~appear~only~once}}}
+       \tl_if_in:VnT \l__ormath_sum_condition_tl {~in~}
+         {\msg_error:nnn {ormath}{sum-input}{put~all~memberships~before~where}}
+       \tl_trim_spaces:N \l__ormath_sum_condition_tl
+       \__ormath_input_normalize:N \l__ormath_sum_condition_tl}
+    \exp_args:NV \__ormath_input_domain:nN \l__ormath_sum_spec_tl #2
+    \tl_set:Nx #2 {\seq_use:Nn \l__ormath_sum_memberships_seq {,\;}}
+    \tl_if_blank:VF \l__ormath_sum_condition_tl
+      {\tl_put_right:Nn #2 {:\,}
+       \tl_put_right:NV #2 \l__ormath_sum_condition_tl}
+  }
+\NewDocumentCommand \orsum {sm}
+  {\group_begin:
+   \IfBooleanTF{#1}
+     {\tl_set:Nn \l__ormath_sum_spec_tl {#2}}
+     {\__ormath_sum_spec:nN {#2}\l__ormath_sum_spec_tl}
+   \use:x {\group_end:\exp_not:N\sum \exp_not:N\sb {\exp_not:V\l__ormath_sum_spec_tl}}}
+\NewDocumentCommand \orvar {O{}mm}
+  {\__ormath_context:nnT {variable}{variables}
+    {\__ormath_element_begin:nn {element}{#1}
+     \tl_set:Nn \l__ormath_expression_tl {#2}
+     \__ormath_input_normalize:N \l__ormath_expression_tl
+     \tl_set:Nn \l__ormath_description_tl {#3}
+     \__ormath_store:n {variable}}}
+\NewDocumentCommand \orsetdef {mmm}
+  {\orset[definition={#2}]{#1}{#3}}
+\cs_new_protected:Npn \__ormath_input_attach:nnnnnnn #1#2#3#4#5#6#7
+  {
+    \tl_if_blank:nF {#4}
+      {\msg_error:nnn {ormath}{input}{duplicate~domain}}
+    \seq_put_right:Nx \l__ormath_records_seq
+      {{#1}{\exp_not:n {#2}}{\exp_not:n {#3}}
+       {\exp_not:V\l__ormath_input_domain_tl}{\exp_not:n {#5}}
+       {\exp_not:n {#6}}{\exp_not:n {#7}}}
+  }
+\NewDocumentCommand \orfor {sm}
+  {
+    \tl_if_empty:NTF \l__ormath_context_tl
+      {\msg_error:nnn {ormath}{input}{\string\for~needs~an~ORmath~environment}}
+      {\seq_if_empty:NTF \l__ormath_records_seq
+        {\msg_error:nnn {ormath}{input}{\string\for~needs~a~preceding~declaration}}
+        {\bool_set:Nn \l__ormath_input_raw_bool {#1}
+         \__ormath_input_domain:nN {#2}\l__ormath_input_domain_tl
+         \seq_pop_right:NN \l__ormath_records_seq \l_tmpa_tl
+         \exp_after:wN \__ormath_input_attach:nnnnnnn \l_tmpa_tl}}
+  }
+\NewDocumentEnvironment {ornotation}{O{}}
+  {\__ormath_environment_begin:nn {notation}{#1}
+   \cs_set_eq:NN \set\orset \cs_set_eq:NN \setdef\orsetdef
+   \cs_set_eq:NN \param\orparameter \cs_set_eq:NN \var\orvar
+   \cs_set_eq:NN \for\orfor}
+  {\__ormath_environment_end:}
+
+% Body capture is local. Explicit \\ separates only top-level rows.
+% Groups containing aligned, macros, or text remain opaque to the scanner.
+\cs_new_protected:Npn \__ormath_input_drop:
+  {\tl_set:Nx \l__ormath_input_tl
+    {\tl_tail:N \l__ormath_input_tl}}
+\cs_new_protected:Npn \__ormath_input_argument:N #1
+  {
+    \tl_trim_spaces:N \l__ormath_input_tl
+    \tl_if_head_is_group:VTF \l__ormath_input_tl
+      {\tl_set:Nx #1 {\tl_head:N \l__ormath_input_tl}
+       \__ormath_input_drop:}
+      {\msg_error:nnn {ormath}{input}{\string\for~and~\string\label~need~braced~arguments}
+       \tl_clear:N #1}
+  }
+\cs_new_protected:Npn \__ormath_input_scan:
+  {
+    \tl_trim_spaces:N \l__ormath_input_tl
+    \tl_if_empty:NF \l__ormath_input_tl
+      {
+        \tl_if_head_eq_meaning:VNT \l__ormath_input_tl \objective
+          {\msg_error:nnn {ormath}{input}{do~not~mix~structured~and~lightweight~rows}}
+        \tl_if_head_eq_meaning:VNT \l__ormath_input_tl \constraint
+          {\msg_error:nnn {ormath}{input}{do~not~mix~structured~and~lightweight~rows}}
+        \tl_if_head_is_group:VTF \l__ormath_input_tl
+          {\tl_put_right:Nx \l__ormath_input_expression_tl
+             {{\tl_head:N \l__ormath_input_tl}}
+           \__ormath_input_drop:}
+          {
+            \tl_if_head_eq_meaning:VNTF \l__ormath_input_tl \for
+              {\__ormath_input_drop:
+               \bool_set_false:N \l__ormath_input_raw_bool
+               \tl_if_head_eq_meaning:VNT \l__ormath_input_tl *
+                 {\bool_set_true:N \l__ormath_input_raw_bool\__ormath_input_drop:}
+               \tl_if_empty:NF \l__ormath_input_domain_tl
+                 {\msg_error:nnn {ormath}{input}{duplicate~domain}}
+               \__ormath_input_argument:N \l_tmpa_tl
+               \exp_args:NV \__ormath_input_domain:nN \l_tmpa_tl
+                 \l__ormath_input_domain_tl}
+              {\tl_if_head_eq_meaning:VNTF \l__ormath_input_tl \label
+                {\__ormath_input_drop:
+                 \tl_if_empty:NF \l__ormath_input_label_tl
+                   {\msg_error:nnn {ormath}{input}{duplicate~label}}
+                 \__ormath_input_argument:N \l__ormath_input_label_tl}
+                {\tl_if_head_eq_meaning:VNTF \l__ormath_input_tl \notag
+                  {\bool_set_true:N \l__ormath_input_notag_bool\__ormath_input_drop:}
+                  {\tl_put_right:Nx \l__ormath_input_expression_tl
+                     {\tl_head:N \l__ormath_input_tl}
+                   \__ormath_input_drop:}}}
+          }
+        \__ormath_input_scan:
+      }
+  }
+\cs_new_protected:Npn \__ormath_input_row:n #1
+  {
+    \tl_set:Nn \l__ormath_input_tl {#1}
+    \tl_trim_spaces:N \l__ormath_input_tl
+    \tl_set:Nn \l__ormath_input_kind_tl {constraint}
+    \tl_if_head_eq_meaning:VNTF \l__ormath_input_tl \minimize
+      {\tl_set:Nn \l__ormath_input_kind_tl {min}\__ormath_input_drop:}
+      {\tl_if_head_eq_meaning:VNT \l__ormath_input_tl \maximize
+        {\tl_set:Nn \l__ormath_input_kind_tl {max}\__ormath_input_drop:}}
+    \tl_trim_spaces:N \l__ormath_input_tl
+    \tl_if_head_eq_meaning:VNT \l__ormath_input_tl \st {\__ormath_input_drop:}
+    \tl_if_head_eq_meaning:VNT \l__ormath_input_tl \subjectto {\__ormath_input_drop:}
+    \tl_trim_spaces:N \l__ormath_input_tl
+    \tl_if_empty:NF \l__ormath_input_tl
+      {
+        \tl_clear:N \l__ormath_input_expression_tl
+        \tl_clear:N \l__ormath_input_domain_tl
+        \tl_clear:N \l__ormath_input_label_tl
+        \bool_set_false:N \l__ormath_input_notag_bool
+        \__ormath_input_scan:
+        \__ormath_input_normalize:N \l__ormath_input_expression_tl
+        \tl_trim_spaces:N \l__ormath_input_expression_tl
+        \tl_if_empty:NT \l__ormath_input_expression_tl
+          {\msg_error:nnn {ormath}{input}{a~model~row~needs~mathematics}}
+        \str_if_eq:VnTF \l__ormath_input_kind_tl {constraint}
+          {\int_compare:nNnF {\l__ormath_objectives_int}={1}
+            {\msg_error:nnn {ormath}{input}{start~the~model~with~one~objective}}}
+          {\int_incr:N \l__ormath_objectives_int}
+        \__ormath_element_begin:nn {element}{}
+        \bool_if:NT \l__ormath_input_notag_bool
+          {\prop_put:Nnn \l__ormath_config_prop {suppress-tag}{true}}
+        \tl_set_eq:NN \l__ormath_expression_tl \l__ormath_input_expression_tl
+        \tl_set_eq:NN \l__ormath_for_tl \l__ormath_input_domain_tl
+        \tl_set_eq:NN \l__ormath_label_tl \l__ormath_input_label_tl
+        \tl_clear:N \l__ormath_description_tl
+        \exp_args:NV \__ormath_store:n \l__ormath_input_kind_tl
+      }
+  }
+\cs_new_protected:Npn \__ormath_input_model:n #1
+  {
+    \tl_set:Nn \l__ormath_input_tl {#1}
+    \tl_remove_all:Nn \l__ormath_input_tl {\par}
+    \tl_trim_spaces:N \l__ormath_input_tl
+    \bool_set_false:N \l_tmpa_bool
+    \tl_if_head_eq_meaning:VNT \l__ormath_input_tl \minimize {\bool_set_true:N\l_tmpa_bool}
+    \tl_if_head_eq_meaning:VNT \l__ormath_input_tl \maximize {\bool_set_true:N\l_tmpa_bool}
+    \bool_if:NTF \l_tmpa_bool
+      {\seq_set_split:NnV \l__ormath_input_rows_seq {\\}\l__ormath_input_tl
+       \seq_map_function:NN \l__ormath_input_rows_seq \__ormath_input_row:n}
+      {#1}
+  }
+\RenewDocumentEnvironment {ormodel}{O{}+b}
+  {\__ormath_environment_begin:nn {model}{#1}
+   \cs_set_eq:NN \Sum\orsum
+   \cs_set_eq:NN \objective\orobjective\cs_set_eq:NN \constraint\orconstraint
+   \cs_set_eq:NN \for\orfor
+   \cs_set_protected:Npn \minimize {\msg_error:nnn {ormath}{input}{do~not~mix~model~syntaxes}}
+   \cs_set_protected:Npn \maximize {\msg_error:nnn {ormath}{input}{misplaced~maximize}}
+   \cs_set_protected:Npn \st {\msg_error:nnn {ormath}{input}{misplaced~st}}
+   \cs_set_eq:NN \subjectto\st
+   \__ormath_input_model:n {#2}\__ormath_environment_end:}
+  {}

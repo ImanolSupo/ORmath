@@ -15,7 +15,7 @@ import zipfile
 from compile import ROOT, ENGINES, compile_source
 
 TOP = (
-    "orlatex.sty", "orlatex-input.code.tex", "ortex.sty", "ormath.sty", "build.lua",
+    "ormath.sty", "ormath-input.code.tex", "build.lua",
     "README.md", "LICENSE", "NOTICE.md", "MANIFEST.txt", "CHANGELOG.md", "CONTRIBUTING.md",
     "ARCHITECTURE.md", "DESIGN-NOTES.md", "API-COMPARISON.md", "TEST-RESULTS.md",
     "RELEASE-NOTES.md", "RELEASE-CHECKLIST.md", "CITATION.md", "release.json",
@@ -50,12 +50,11 @@ def check(review=False, root=ROOT):
         raise RuntimeError("Release version must be a numeric x.y.z version")
     if meta["proposed_tag"] != "v" + meta["version"] or meta["status"] != "experimental":
         raise RuntimeError("Inconsistent candidate metadata")
-    for name in ("orlatex.sty", "ortex.sty", "ormath.sty"):
-        source = (root / name).read_text(encoding="utf-8")
-        pattern = (r"\{" + re.escape(meta["date"]) + r"\}\s*\{" + re.escape(meta["version"]) + r"\}") if name == "orlatex.sty" else (r"\[" + re.escape(meta["date"]) + r" v" + re.escape(meta["version"]) + r" ")
-        if not re.search(pattern, source):
-            raise RuntimeError(f"Version/date mismatch: {name}")
-    for name in ("README.md", "CHANGELOG.md", "RELEASE-NOTES.md", "docs/orlatex.tex"):
+    source = (root / "ormath.sty").read_text(encoding="utf-8")
+    pattern = r"\{" + re.escape(meta["date"]) + r"\}\s*\{" + re.escape(meta["version"]) + r"\}"
+    if not re.search(pattern, source):
+        raise RuntimeError("Version/date mismatch: ormath.sty")
+    for name in ("README.md", "CHANGELOG.md", "RELEASE-NOTES.md", "docs/ormath.tex"):
         if meta["version"] not in (root / name).read_text(encoding="utf-8"):
             raise RuntimeError(f"Version missing: {name}")
     readme = (root / "README.md").read_text(encoding="utf-8")
@@ -76,7 +75,7 @@ def check(review=False, root=ROOT):
         for name, expected in manifest[group].items():
             if digest((root / name).read_bytes()) != expected:
                 raise RuntimeError(f"Stale asset or source fingerprint: {name}; run prepare_assets.py")
-    if not (root / "docs/orlatex.pdf").read_bytes().startswith(b"%PDF-"):
+    if not (root / "docs/ormath.pdf").read_bytes().startswith(b"%PDF-"):
         raise RuntimeError("Guide is not a PDF")
     if not (root / "docs/images/quickstart.png").read_bytes().startswith(b"\x89PNG\r\n\x1a\n"):
         raise RuntimeError("Preview is not a PNG")
@@ -106,13 +105,13 @@ def check(review=False, root=ROOT):
 
 
 def archive_name(meta, review):
-    return f"orlatex-{meta['version']}" + ("-review" if review else "")
+    return f"ormath-{meta['version']}" + ("-review" if review else "")
 
 
 def package(review=False):
     meta, selected = check(review)
     name = archive_name(meta, review)
-    prefix = f"orlatex-{meta['version']}/"
+    prefix = f"ormath-{meta['version']}/"
     output = ROOT / "output/release"
     output.mkdir(parents=True, exist_ok=True)
     payloads = {p.relative_to(ROOT).as_posix(): p.read_bytes() for p in selected}
@@ -125,7 +124,7 @@ def package(review=False):
     archive = output / f"{name}.zip"
     with zipfile.ZipFile(archive, "w", compression=zipfile.ZIP_DEFLATED, compresslevel=9) as bundle:
         for path, data in sorted(payloads.items()):
-            info = zipfile.ZipInfo(prefix + path, (2026, 9, 16, 0, 0, 0))
+            info = zipfile.ZipInfo(prefix + path, (2026, 9, 20, 0, 0, 0))
             info.create_system = 3
             info.external_attr = 0o100644 << 16
             info.compress_type = zipfile.ZIP_DEFLATED
@@ -139,7 +138,7 @@ def package(review=False):
 def smoke(review=False):
     meta, _ = check(review)
     archive = ROOT / "output/release" / (archive_name(meta, review) + ".zip")
-    prefix = f"orlatex-{meta['version']}/"
+    prefix = f"ormath-{meta['version']}/"
     staging = ROOT / "tmp/release-smoke"
     staging.mkdir(parents=True, exist_ok=True)
     with zipfile.ZipFile(archive) as bundle:
@@ -157,7 +156,7 @@ def smoke(review=False):
                 raise RuntimeError(f"Archive differs from working source: {name}; rebuild package")
         with tempfile.TemporaryDirectory(prefix="install-", dir=staging) as directory:
             install = Path(directory)
-            for name in ("orlatex.sty", "orlatex-input.code.tex", "examples/00-quickstart.tex"):
+            for name in ("ormath.sty", "ormath-input.code.tex", "examples/00-quickstart.tex"):
                 (install / Path(name).name).write_bytes(bundle.read(prefix + name))
             for engine in ENGINES:
                 compile_source(install / "00-quickstart.tex", engine, ROOT / "output/release-smoke" / engine, cwd=install)

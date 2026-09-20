@@ -3,7 +3,7 @@
 
 \input regression-test.tex
 \documentclass{article}
-\usepackage{orlatex}
+\usepackage{ormath}
 \newcommand\Cost{c}
 \begin{document}
 \START
@@ -20,24 +20,24 @@
   \set[size=n]{I}{Indexed sites.}
   \set[elements={A,B,C}]{H}{Harvest types.}
   \set[definition={(i,j):a_{ij}=1}]{A}{Arcs with $a_{ij}=1$.}
-  \seq_map_inline:Nn \l__orlatex_records_seq {\test_records:nnnnnnn #1}
+  \seq_map_inline:Nn \l__ormath_records_seq {\test_records:nnnnnnn #1}
 \end{orsets}
 \begin{orparameters}
   \parameter{B}{Budget.}
   \parameter[for={i\in I}]{\Cost _i}{Unexpanded user notation.}
-  \seq_map_inline:Nn \l__orlatex_records_seq {\test_records:nnnnnnn #1}
+  \seq_map_inline:Nn \l__ormath_records_seq {\test_records:nnnnnnn #1}
 \end{orparameters}
 \begin{orvariables}
   \variable{x}{Continuous.}
   \variable[type=nonnegative]{s}{Stock.}
   \variable[type=integer,for={i\in I}]{n_i}{Machines.}
   \variable[type=binary]{y}{Setup.}
-  \seq_map_inline:Nn \l__orlatex_records_seq {\test_records:nnnnnnn #1}
+  \seq_map_inline:Nn \l__ormath_records_seq {\test_records:nnnnnnn #1}
 \end{orvariables}
 \begin{ormodel}
   \objective[max,label=obj:profit]{\sum _{i\in I}\Cost _i x_i}
   \constraint[for={(i,t)\in M},label=con:capacity]{x_{it}\leq U_{it}}
-  \seq_map_inline:Nn \l__orlatex_records_seq {\test_records:nnnnnnn #1}
+  \seq_map_inline:Nn \l__ormath_records_seq {\test_records:nnnnnnn #1}
 \end{ormodel}}
 \ExplSyntaxOff
 \END

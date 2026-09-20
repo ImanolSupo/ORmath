@@ -1,17 +1,17 @@
 {
   "inputs": {
-    "orlatex.sty": "aafa253f3e2151b8ceb5fce97fdb2d882fe5da4237322101ca13442411c284f8",
-    "orlatex-input.code.tex": "2c0d4c75aec4fd4ef051b0232fd055269f357c8410eb4ebdda9a8628361f3828",
-    "docs/orlatex.tex": "dc03106a0cb8410b12e4b2f8e45b5bcd1211dc993016fe76a4bdbdd1d41ead7d",
-    "docs/preview.tex": "03b6425dac69e7c2768536347625d5ff815d186315de8fdcbfc6cfb36df5e130",
+    "ormath.sty": "1db47653b6d75054c45a772d53f53213af7eb9d12547a2f9c7c3e1ce5eb0154b",
+    "ormath-input.code.tex": "a89af315a10a3608621fcab26f8599f5f99c7237eda0039668a6319d81df2e45",
+    "docs/ormath.tex": "807dfa7ea2047c7307d10763d671399fda17dbd695ca172b329c0afa51d4aab9",
+    "docs/preview.tex": "e7f0ead0d6f654fc51a07edf53d4aeed56fff714750270b8a0addb400d0ae826",
     "examples/fixtures/planning-model.tex": "483710d59c6abd3a71fa9643cdc9f36036ab5797753a263d9d40fba8850f1363",
     "examples/fixtures/responsive-model.tex": "632207afe00f5cc6693609e9c2dfd719c013305e5d269ace55b0beae207962b8",
     "examples/fixtures/tag-target.tex": "37cc4dea9ed764d49658ec807fa467fb789317b8116963e354e4f4d5c9bf4491",
     "examples/fixtures/summation-model.tex": "944a5428854856cc4aae8eff5b4b88d57ba561c19a243552361590c1e32b5983",
-    "scripts/prepare_assets.py": "a2a40800af946f227a9ab1734eba7b087ff83ddcc7be62fb80ca31f51129bcf7"
+    "scripts/prepare_assets.py": "61776fed27a7a34ba759e4576c0d57418eafc2ec4a7a193ac5ad63e8f3cba43d"
   },
   "assets": {
-    "docs/orlatex.pdf": "8914b44f664f65703c650b4aa8e2600655bf4e3db6bc2da06881e55a421e8ccc",
+    "docs/ormath.pdf": "4b22dfe2525fd88bcb6c06806ed68ff024ea587da6b9f46f4e1b2eb2ff19a096",
     "docs/images/quickstart.png": "c216dc3bcf9d9140d523fead2a9c5006ff0d63fcdfccc0eb7bb111638a08d0a8"
   }
 }
